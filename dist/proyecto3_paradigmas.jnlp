@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="proyecto3_paradigmas.jnlp">
+  <information>
+    <title>proyecto3_paradigmas</title>
+    <vendor>Andres</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="proyecto3_paradigmas.jar" size="6167" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="proyecto3_paradigmas" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="proyecto3_paradigmas.Proyecto3_paradigmas"  name="proyecto3_paradigmas" />
+  <update check="always"/>
+</jnlp>
