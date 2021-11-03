@@ -19,9 +19,13 @@ public class Proyecto3_paradigmas extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/Base.fxml"));
         
         Scene scene = new Scene(root);
+        
+        stage.setTitle("Proyecto 3");
+        stage.setMinWidth(600);
+        stage.setMinHeight(400);
         
         stage.setScene(scene);
         stage.show();
