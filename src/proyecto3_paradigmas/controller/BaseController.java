@@ -81,11 +81,11 @@ public class BaseController implements Initializable {
         cl_provinica.setCellValueFactory(x
                 -> new SimpleStringProperty(x.getValue().getProvincia()));
         cl_nombre.setCellValueFactory(x
-                -> new SimpleStringProperty(x.getValue().getProvincia()));
+                -> new SimpleStringProperty(x.getValue().getNombre()));
         cl_cedula.setCellValueFactory(x
-                -> new SimpleStringProperty(x.getValue().getProvincia()));
+                -> new SimpleStringProperty(x.getValue().getCedula()));
         cl_apellidos.setCellValueFactory(x
-                -> new SimpleStringProperty(x.getValue().getProvincia()));
+                -> new SimpleStringProperty(x.getValue().getApellido1() + " " + x.getValue().getApelido2()));
 
         prepararAccionesDeTupla();
     }
@@ -142,15 +142,15 @@ public class BaseController implements Initializable {
     @FXML
     private void buscarConcidencias(ActionEvent event) {
         List<Persona> aux = filtroList(listaBase);
-        aux.stream().forEach(x -> {
-            System.out.println(x.getNombre() + " " + x.getApellido1() + " " + x.getApelido2());
-        });
-        Mensaje ms =new Mensaje();
-        ms.showInformation("Cantidad de personas con el nombre "+txt_nombre.getText()+": "+aux.size());
+        tbl_personas.getItems().clear();
+        Mensaje ms = new Mensaje();
+        ms.showInformation("Cantidad de personas con el nombre " + txt_nombre.getText()
+                + ": " + aux.size());
+        tbl_personas.getItems().addAll(aux);
     }
 
     private List<Persona> filtroList(List<Persona> list) {
-        
+
         return list.stream().filter(x -> {
             return txt_nombre.getText().toUpperCase().equals(x.getNombre());
         }).collect(Collectors.toList());

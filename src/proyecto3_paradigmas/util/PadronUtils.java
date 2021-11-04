@@ -50,7 +50,7 @@ public class PadronUtils {
             stringPersonas.forEach((actual) -> {
                 String split[] = actual.split(",");
 
-                Persona persona = new Persona(split[5], split[6],split[7], 
+                Persona persona = new Persona(split[5], split[6], split[7],
                         split[0], split[3]);
                 listPersona.add(persona);
             });
@@ -70,8 +70,8 @@ public class PadronUtils {
             if ((linea = br.readLine()) != null) {
 
                 String split[] = linea.split(",");
-                
-                Persona persona = new Persona(split[5], split[6],split[7], 
+
+                Persona persona = new Persona(split[5], split[6], split[7],
                         split[0], split[3]);
                 li.add(persona);
 
