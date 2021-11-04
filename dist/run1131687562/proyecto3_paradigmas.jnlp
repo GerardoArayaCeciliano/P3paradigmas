@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="proyecto3_paradigmas.jar" size="14217" download="eager" />
+    <jar href="proyecto3_paradigmas.jar" size="14033" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="proyecto3_paradigmas" >
     <param name="requiredFXVersion" value="8.0+"/>

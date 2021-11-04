@@ -5,6 +5,8 @@
  */
 package proyecto3_paradigmas.model;
 
+import java.util.Date;
+
 /**
  *
  * @author Andres
@@ -17,6 +19,7 @@ public class Persona {
      String cedula;
      String fechaVencimiento;
      String provincia;
+     String estadoCedula;
 
     public Persona(String nombre, String apellido1, String apelido2, String cedula, String fechaVencimiento) {
         this.nombre = nombre.trim();
@@ -25,6 +28,7 @@ public class Persona {
         this.cedula = cedula;
         this.fechaVencimiento = fechaVencimiento;
         this.provincia = addProvincia(cedula);
+        this.estadoCedula = addEstadoCedula(fechaVencimiento);
        
         
         
@@ -112,6 +116,36 @@ public class Persona {
             return "Extranjero";
         }
          return "Casos Especiales";
+    }
+    
+    public String addEstadoCedula(String fechaVenc){
+        String estado = ""; 
+        String mes;
+        String año;
+        
+        Date fechaActual = new Date();
+        
+        mes = String.valueOf(fechaVenc.charAt(4))+
+                String.valueOf(fechaVenc.charAt(5));
+        
+        año = String.valueOf(fechaVenc.charAt(0))+
+                String.valueOf(fechaVenc.charAt(1))+
+                String.valueOf(fechaVenc.charAt(2))+
+                String.valueOf(fechaVenc.charAt(3));
+        
+        if( (Integer.valueOf(año)  == (fechaActual.getYear()+1900)) &
+                ((Integer.valueOf(mes) - (fechaActual.getMonth()+1)) ==1 )){
+           
+             return "Esta proxima a vencer";
+        }
+        
+        else{
+            return "No esta proxima a vencer";
+        }
+       
+        
+            
+        
     }
     
 }
