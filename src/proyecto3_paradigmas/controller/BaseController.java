@@ -8,12 +8,14 @@ package proyecto3_paradigmas.controller;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -23,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import proyecto3_paradigmas.model.Persona;
+import proyecto3_paradigmas.util.Mensaje;
 import proyecto3_paradigmas.util.PadronUtils;
 
 /**
@@ -52,8 +55,7 @@ public class BaseController implements Initializable {
     @FXML
     private TableColumn<Persona, String> cl_provinica;
     @FXML
-    
-    
+
     private TableColumn<Persona, Void> cl_acciones;
     private ObservableList<Persona> listaTabla;
     private List<Persona> listaBase;
@@ -62,7 +64,7 @@ public class BaseController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         listaBase = PadronUtils.cargarPersonas(); // Aqui se carga lista base
-        
+
         //Esta de aqui es la lista de la tabla (NO HACE FALTA usa setIntems())
         //es un puntero y ya está enlazado
         listaTabla = FXCollections.observableArrayList();
@@ -76,22 +78,21 @@ public class BaseController implements Initializable {
         tbl_personas.setItems(listaTabla);  //Lista de la tabla ahora es lista externa
         tbl_personas.setPlaceholder(new Label("Sin personas por mostrar"));
 
-        cl_provinica.setCellValueFactory(x -> 
-                new SimpleStringProperty(x.getValue().getProvincia()));
-        cl_nombre.setCellValueFactory(x -> 
-                new SimpleStringProperty(x.getValue().getProvincia()));
-        cl_cedula.setCellValueFactory(x -> 
-                new SimpleStringProperty(x.getValue().getProvincia()));
-        cl_apellidos.setCellValueFactory(x -> 
-                new SimpleStringProperty(x.getValue().getProvincia()));
+        cl_provinica.setCellValueFactory(x
+                -> new SimpleStringProperty(x.getValue().getProvincia()));
+        cl_nombre.setCellValueFactory(x
+                -> new SimpleStringProperty(x.getValue().getProvincia()));
+        cl_cedula.setCellValueFactory(x
+                -> new SimpleStringProperty(x.getValue().getProvincia()));
+        cl_apellidos.setCellValueFactory(x
+                -> new SimpleStringProperty(x.getValue().getProvincia()));
 
         prepararAccionesDeTupla();
     }
 
     private void prepararAccionesDeTupla() {
 
-        Callback<TableColumn<Persona, Void>, TableCell<Persona, Void>> 
-                cellFactory = (final TableColumn<Persona, Void> param) -> {
+        Callback<TableColumn<Persona, Void>, TableCell<Persona, Void>> cellFactory = (final TableColumn<Persona, Void> param) -> {
             final TableCell<Persona, Void> cell = new TableCell<Persona, Void>() {
 
                 private final Button btn = new Button("Buscar nombres iguales");
@@ -122,7 +123,7 @@ public class BaseController implements Initializable {
 
     @FXML
     private void buscar(ActionEvent event) {
-                                                //TODO BUSCAR
+        //TODO BUSCAR
     }
 
     private void activateResponsiveTable() {
@@ -136,6 +137,24 @@ public class BaseController implements Initializable {
                 bind(tbl_personas.widthProperty().divide(5));
         cl_provinica.prefWidthProperty().
                 bind(tbl_personas.widthProperty().divide(5));
+    }
+
+    @FXML
+    private void buscarConcidencias(ActionEvent event) {
+        List<Persona> aux = filtroList(listaBase);
+        aux.stream().forEach(x -> {
+            System.out.println(x.getNombre() + " " + x.getApellido1() + " " + x.getApelido2());
+        });
+        Mensaje ms =new Mensaje();
+        ms.showInformation("Cantidad de personas con el nombre "+txt_nombre.getText()+": "+aux.size());
+    }
+
+    private List<Persona> filtroList(List<Persona> list) {
+        
+        return list.stream().filter(x -> {
+            return txt_nombre.getText().toUpperCase().equals(x.getNombre());
+        }).collect(Collectors.toList());
+
     }
 
 }
