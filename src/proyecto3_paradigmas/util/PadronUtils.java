@@ -51,7 +51,7 @@ public class PadronUtils {
                 String split[] = actual.split(",");
 
                 Persona persona = new Persona(split[5], split[6],split[7], 
-                        split[0], split[3], split[1]);
+                        split[0], split[3]);
                 listPersona.add(persona);
             });
 
@@ -72,7 +72,7 @@ public class PadronUtils {
                 String split[] = linea.split(",");
                 
                 Persona persona = new Persona(split[5], split[6],split[7], 
-                        split[0], split[3], split[1]);
+                        split[0], split[3]);
                 li.add(persona);
 
                 recorrerArchivo(br, li, cont + 1);
