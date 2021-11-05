@@ -57,14 +57,12 @@ public class BaseController implements Initializable {
     @FXML
     private TableColumn<Persona, String> cl_fecha_vencimiento;
     @FXML
-    private TableColumn<Persona, String>  cl_estado_cedula;
+    private TableColumn<Persona, String> cl_estado_cedula;
     @FXML
-    
 
     private TableColumn<Persona, Void> cl_acciones;
     private ObservableList<Persona> listaTabla;
     private List<Persona> listaBase;
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -133,13 +131,13 @@ public class BaseController implements Initializable {
 
     @FXML
     private void buscar(ActionEvent event) {
-        
-        if(dp_fechaVecimiento.getValue() != null){
-            
+
+        if (dp_fechaVecimiento.getValue() != null) {
+
             List<Persona> aux = filtroListDate(listaBase);
             tbl_personas.getItems().clear();
             tbl_personas.getItems().addAll(aux);
-            
+
         }
         //TODO BUSCAR
     }
@@ -170,18 +168,33 @@ public class BaseController implements Initializable {
     //devuelve una lista filtrada por nombre
     private List<Persona> filtroList(List<Persona> list) {
 
-        return list.stream().filter(x -> {
-            return txt_nombre.getText().toUpperCase().equals(x.getNombre());
-        }).collect(Collectors.toList());
+        if (txt_nombre.getText().length() != 0
+                && txt_apellidos.getText().length() == 0) {
+            return list.stream().filter(x -> {
+                return (txt_nombre.getText().toUpperCase().equals(x.getNombre()));
+            }).collect(Collectors.toList());
+        } else if (txt_nombre.getText().length() == 0
+                && txt_apellidos.getText().length() != 0) {
+            return list.stream().filter(x -> {
+                return (txt_apellidos.getText().toUpperCase().equals(
+                                x.getApellido1() + " " + x.getApelido2()));
+            }).collect(Collectors.toList());
+        } else {
+            return list.stream().filter(x -> {
+                return (txt_nombre.getText().toUpperCase().equals(x.getNombre())
+                        && txt_apellidos.getText().toUpperCase().equals(
+                                x.getApellido1() + " " + x.getApelido2()));
+            }).collect(Collectors.toList());
+        }
 
     }
-    
-    //devuelve una lista filtrada por fecha
-     private List<Persona> filtroListDate(List<Persona> list) {
 
-         String date,valueToSearch;
-         date= String.valueOf(dp_fechaVecimiento.getValue());
-        
+    //devuelve una lista filtrada por fecha
+    private List<Persona> filtroListDate(List<Persona> list) {
+
+        String date, valueToSearch;
+        date = String.valueOf(dp_fechaVecimiento.getValue());
+
         return list.stream().filter(x -> {
             return date.equals(x.getFechaVencimiento());
         }).collect(Collectors.toList());
