@@ -55,10 +55,16 @@ public class BaseController implements Initializable {
     @FXML
     private TableColumn<Persona, String> cl_provinica;
     @FXML
+    private TableColumn<Persona, String> cl_fecha_vencimiento;
+    @FXML
+    private TableColumn<Persona, String>  cl_estado_cedula;
+    @FXML
+    
 
     private TableColumn<Persona, Void> cl_acciones;
     private ObservableList<Persona> listaTabla;
     private List<Persona> listaBase;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,6 +92,10 @@ public class BaseController implements Initializable {
                 -> new SimpleStringProperty(x.getValue().getCedula()));
         cl_apellidos.setCellValueFactory(x
                 -> new SimpleStringProperty(x.getValue().getApellido1() + " " + x.getValue().getApelido2()));
+        cl_fecha_vencimiento.setCellValueFactory(x
+                -> new SimpleStringProperty(x.getValue().getFechaVencimiento()));
+        cl_estado_cedula.setCellValueFactory(x
+                -> new SimpleStringProperty(x.getValue().getEstadoCedula()));
 
         prepararAccionesDeTupla();
     }
@@ -123,20 +133,28 @@ public class BaseController implements Initializable {
 
     @FXML
     private void buscar(ActionEvent event) {
+        
+        if(dp_fechaVecimiento.getValue() != null){
+            
+            List<Persona> aux = filtroListDate(listaBase);
+            tbl_personas.getItems().clear();
+            tbl_personas.getItems().addAll(aux);
+            
+        }
         //TODO BUSCAR
     }
 
     private void activateResponsiveTable() {
         cl_acciones.prefWidthProperty().
-                bind(tbl_personas.widthProperty().divide(5));
+                bind(tbl_personas.widthProperty().divide(6));
         cl_apellidos.prefWidthProperty().
-                bind(tbl_personas.widthProperty().divide(5));
+                bind(tbl_personas.widthProperty().divide(6));
         cl_cedula.prefWidthProperty().
-                bind(tbl_personas.widthProperty().divide(5));
+                bind(tbl_personas.widthProperty().divide(6));
         cl_nombre.prefWidthProperty().
-                bind(tbl_personas.widthProperty().divide(5));
+                bind(tbl_personas.widthProperty().divide(6));
         cl_provinica.prefWidthProperty().
-                bind(tbl_personas.widthProperty().divide(5));
+                bind(tbl_personas.widthProperty().divide(6));
     }
 
     @FXML
@@ -149,10 +167,23 @@ public class BaseController implements Initializable {
         tbl_personas.getItems().addAll(aux);
     }
 
+    //devuelve una lista filtrada por nombre
     private List<Persona> filtroList(List<Persona> list) {
 
         return list.stream().filter(x -> {
             return txt_nombre.getText().toUpperCase().equals(x.getNombre());
+        }).collect(Collectors.toList());
+
+    }
+    
+    //devuelve una lista filtrada por fecha
+     private List<Persona> filtroListDate(List<Persona> list) {
+
+         String date,valueToSearch;
+         date= String.valueOf(dp_fechaVecimiento.getValue());
+         valueToSearch = date.replace("-", "");
+        return list.stream().filter(x -> {
+            return valueToSearch.equals(x.getFechaVencimiento());
         }).collect(Collectors.toList());
 
     }

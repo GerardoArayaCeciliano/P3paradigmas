@@ -59,6 +59,14 @@ public class Persona {
         return apelido2;
     }
 
+    public String getEstadoCedula() {
+        return estadoCedula;
+    }
+
+    public void setEstadoCedula(String estadoCedula) {
+        this.estadoCedula = estadoCedula;
+    }
+
     public void setApelido2(String apelido2) {
         this.apelido2 = apelido2;
     }
@@ -135,12 +143,11 @@ public class Persona {
         
         if( (Integer.valueOf(año)  == (fechaActual.getYear()+1900)) &
                 ((Integer.valueOf(mes) - (fechaActual.getMonth()+1)) ==1 )){
-           
-             return "Esta proxima a vencer";
+                        return "Sí";
         }
         
         else{
-            return "No esta proxima a vencer";
+            return "No";
         }
        
         

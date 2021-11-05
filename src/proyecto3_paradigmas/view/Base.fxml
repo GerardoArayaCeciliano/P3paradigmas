@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="fondo" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto3_paradigmas.controller.BaseController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="fondo" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto3_paradigmas.controller.BaseController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
       <VBox alignment="CENTER" layoutX="347.0" layoutY="145.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -73,7 +73,9 @@
                 <TableColumn fx:id="cl_nombre" prefWidth="75.0" text="Nombre" />
                   <TableColumn fx:id="cl_apellidos" prefWidth="75.0" text="Apellidos" />
                   <TableColumn fx:id="cl_provinica" prefWidth="75.0" text="Provincia" />
-                  <TableColumn fx:id="cl_acciones" prefWidth="75.0" text="Acciones" />
+                  <TableColumn fx:id="cl_fecha_vencimiento" prefWidth="165.5999755859375" text="Fecha vencimiento" />
+                  <TableColumn fx:id="cl_estado_cedula" prefWidth="137.60003662109375" text="Próxima a vencer" />
+                  <TableColumn fx:id="cl_acciones" minWidth="0.0" prefWidth="114.39996337890625" text="Acciones" />
               </columns>
             </TableView>
          </children>
