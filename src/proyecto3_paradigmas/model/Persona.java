@@ -26,9 +26,9 @@ public class Persona {
         this.apellido1 = apellido1.trim();
         this.apelido2 = apelido2.trim();
         this.cedula = cedula;
-        this.fechaVencimiento = fechaVencimiento;
+        this.fechaVencimiento = formatDate(fechaVencimiento);
         this.provincia = addProvincia(cedula);
-        this.estadoCedula = addEstadoCedula(fechaVencimiento);
+        this.estadoCedula = addEstadoCedula(this.fechaVencimiento);
        
         
         
@@ -133,8 +133,8 @@ public class Persona {
         
         Date fechaActual = new Date();
         
-        mes = String.valueOf(fechaVenc.charAt(4))+
-                String.valueOf(fechaVenc.charAt(5));
+        mes = String.valueOf(fechaVenc.charAt(5))+
+                String.valueOf(fechaVenc.charAt(6));
         
         año = String.valueOf(fechaVenc.charAt(0))+
                 String.valueOf(fechaVenc.charAt(1))+
@@ -154,5 +154,24 @@ public class Persona {
             
         
     }
+    
+    
+  public String formatDate(String date){
+      
+      String date2;
+      date2 = date.valueOf(date.charAt(0))+
+              date.valueOf(date.charAt(1))+
+              date.valueOf(date.charAt(2))+
+              date.valueOf(date.charAt(3))+
+              "-"+
+              date.valueOf(date.charAt(4))+
+              date.valueOf(date.charAt(5))+
+              "-"+
+              date.valueOf(date.charAt(6))+
+              date.valueOf(date.charAt(7));
+      
+      
+     return date2;
+  }
     
 }

@@ -181,9 +181,9 @@ public class BaseController implements Initializable {
 
          String date,valueToSearch;
          date= String.valueOf(dp_fechaVecimiento.getValue());
-         valueToSearch = date.replace("-", "");
+        
         return list.stream().filter(x -> {
-            return valueToSearch.equals(x.getFechaVencimiento());
+            return date.equals(x.getFechaVencimiento());
         }).collect(Collectors.toList());
 
     }
