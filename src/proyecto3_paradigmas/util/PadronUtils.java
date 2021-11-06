@@ -15,11 +15,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author Andres
+ * Esta es una clse de utilidades que ejecuta la logica necesaria para cargar
+ * el padron en memoria.
+ * @author Roberth
  */
 public class PadronUtils {
 
+    /**
+     * Lee un documento en formato txt con el nombre "PADRON_COMPLETO.txt"
+     * el cual debe ser descargado de la pagina del registro nacional de Costa
+     * Rica.
+     * @return Lista per <b>Personas</b> que fueron generadas a partir del
+     * documento de texto.
+     */
     public static List<Persona> cargarPersonas() {
         List<String> stringPersonas = new ArrayList();
         List<Persona> listPersona = new ArrayList();
@@ -30,20 +38,28 @@ public class PadronUtils {
             BufferedReader br = new BufferedReader(archivo);
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("1"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("2"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("3"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("4"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("5"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("6"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("7"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("8"))
                     .limit(50000).collect(Collectors.toList()));
+            
             stringPersonas.addAll(br.lines().filter((str) -> str.startsWith("9"))
                     .limit(50000).collect(Collectors.toList()));
 
@@ -55,32 +71,10 @@ public class PadronUtils {
                 listPersona.add(persona);
             });
 
-            System.out.println(archivo);
         } catch (FileNotFoundException e) {
             System.err.println("Archivo de padron no encontrado");
         }
 
         return listPersona;
     }
-
-    public static void recorrerArchivo(BufferedReader br, List<Persona> li, int cont) {
-        String linea;
-
-        try {
-            if ((linea = br.readLine()) != null) {
-
-                String split[] = linea.split(",");
-
-                Persona persona = new Persona(split[5], split[6], split[7],
-                        split[0], split[3]);
-                li.add(persona);
-
-                recorrerArchivo(br, li, cont + 1);
-            }
-        } catch (IOException IO) {
-            System.out.println(IO);
-        }
-
-    }
-
 }

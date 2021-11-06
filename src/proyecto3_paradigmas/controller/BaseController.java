@@ -15,21 +15,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.util.Callback;
 import proyecto3_paradigmas.model.Persona;
 import proyecto3_paradigmas.util.Mensaje;
 import proyecto3_paradigmas.util.PadronUtils;
 
 /**
- *
+ * Esta clase se encarga de controlar los eventos dentro de la vista Base.fxml.
+ * @author Roberth
+ * @author Gerardo
  * @author Andres
  */
 public class BaseController implements Initializable {
@@ -60,10 +58,12 @@ public class BaseController implements Initializable {
     private TableColumn<Persona, String> cl_estado_cedula;
     @FXML
 
-    private TableColumn<Persona, Void> cl_acciones;
     private ObservableList<Persona> listaTabla;
     private List<Persona> listaBase;
+    @FXML
+    private TextField txt_apellido2;
 
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -78,7 +78,7 @@ public class BaseController implements Initializable {
     }
 
     private void prepararTabla() {
-        activateResponsiveTable();
+        activarResponsiveTable();
         tbl_personas.setItems(listaTabla);  //Lista de la tabla ahora es lista externa
         tbl_personas.setPlaceholder(new Label("Sin personas por mostrar"));
 
@@ -89,62 +89,36 @@ public class BaseController implements Initializable {
         cl_cedula.setCellValueFactory(x
                 -> new SimpleStringProperty(x.getValue().getCedula()));
         cl_apellidos.setCellValueFactory(x
-                -> new SimpleStringProperty(x.getValue().getApellido1() + " " + x.getValue().getApelido2()));
+                -> new SimpleStringProperty(x.getValue().getApellido1() + " " +
+                        x.getValue().getApelido2()));
         cl_fecha_vencimiento.setCellValueFactory(x
                 -> new SimpleStringProperty(x.getValue().getFechaVencimiento()));
         cl_estado_cedula.setCellValueFactory(x
                 -> new SimpleStringProperty(x.getValue().getEstadoCedula()));
 
-        prepararAccionesDeTupla();
     }
 
-    private void prepararAccionesDeTupla() {
-
-        Callback<TableColumn<Persona, Void>, TableCell<Persona, Void>> cellFactory = (final TableColumn<Persona, Void> param) -> {
-            final TableCell<Persona, Void> cell = new TableCell<Persona, Void>() {
-
-                private final Button btn = new Button("Buscar nombres iguales");
-
-                {
-                    btn.setOnAction((ActionEvent event) -> {
-                        //TODO
-                    });
-                }
-
-                @Override
-                public void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        btn.setStyle("-fx-background-color:#388E3C; -fx-text-fill: whitesmoke;");
-                        setGraphic(btn);
-                    }
-                }
-            };
-            return cell;
-        };
-
-        cl_acciones.setCellFactory(cellFactory);
-
-    }
 
     @FXML
     private void buscar(ActionEvent event) {
 
-        if (dp_fechaVecimiento.getValue() != null) {
-
-            List<Persona> aux = filtroListDate(listaBase);
-            tbl_personas.getItems().clear();
-            tbl_personas.getItems().addAll(aux);
-
-        }
-        //TODO BUSCAR
+       listaTabla.clear();
+       listaTabla.addAll(listaBase.stream().filter(itm -> 
+            itm.getNombre().
+               contains(txt_nombre.getText().trim().toUpperCase()) &&
+            itm.getApellido1().
+                    contains(txt_apellidos.getText().trim().toUpperCase()) &&
+            itm.getApelido2().
+                    contains(txt_apellido2.getText().trim().toUpperCase()) &&
+            itm.getCedula().toUpperCase().
+                    contains(txt_cedula.getText().trim().toUpperCase()) &&
+            itm.getFechaVencimiento().
+                    contains((dp_fechaVecimiento.getValue() != null) ?
+                            dp_fechaVecimiento.getValue().toString() : "")
+        ).collect(Collectors.toList()));
     }
 
-    private void activateResponsiveTable() {
-        cl_acciones.prefWidthProperty().
-                bind(tbl_personas.widthProperty().divide(6));
+    private void activarResponsiveTable() {
         cl_apellidos.prefWidthProperty().
                 bind(tbl_personas.widthProperty().divide(6));
         cl_cedula.prefWidthProperty().
@@ -153,16 +127,21 @@ public class BaseController implements Initializable {
                 bind(tbl_personas.widthProperty().divide(6));
         cl_provinica.prefWidthProperty().
                 bind(tbl_personas.widthProperty().divide(6));
+        cl_fecha_vencimiento.prefWidthProperty().
+                bind(tbl_personas.widthProperty().divide(6));
+        cl_estado_cedula.prefWidthProperty().
+                bind(tbl_personas.widthProperty().divide(6));
+        
     }
 
     @FXML
     private void buscarConcidencias(ActionEvent event) {
         List<Persona> aux = filtroList(listaBase);
-        tbl_personas.getItems().clear();
+        listaTabla.clear();
         Mensaje ms = new Mensaje();
         ms.showInformation("Cantidad de personas con el nombre " + txt_nombre.getText()
                 + ": " + aux.size());
-        tbl_personas.getItems().addAll(aux);
+        listaTabla.addAll(aux);
     }
 
     //devuelve una lista filtrada por nombre
@@ -186,18 +165,6 @@ public class BaseController implements Initializable {
                                 x.getApellido1() + " " + x.getApelido2()));
             }).collect(Collectors.toList());
         }
-
-    }
-
-    //devuelve una lista filtrada por fecha
-    private List<Persona> filtroListDate(List<Persona> list) {
-
-        String date, valueToSearch;
-        date = String.valueOf(dp_fechaVecimiento.getValue());
-
-        return list.stream().filter(x -> {
-            return date.equals(x.getFechaVencimiento());
-        }).collect(Collectors.toList());
 
     }
 
